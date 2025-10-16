@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Muestra Vocación y Huella 2025 — Colegio San Alberto Magno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <h1 class="logo">
+          Muestra vocacional de San Alberto<span class="anio">2025</span>
+        </h1>
+        <!-- Tu botón hamburguesa existente -->
+        <button class="hamburger" aria-label="Abrir menú" id="hamburgerBtn">
+          &#9776;
+        </button>
+
+        <!-- Menú -->
+        <nav class="main-nav">
+          <a href="index.html">Inicio</a>
+          <a href="galeria.html">Galería</a>
+          <a href="reseñas.html">Reseñas</a>
+        </nav>
+      </div>
+    </header>
+
+    <section id="galeria" class="gallery-section">
+      <div class="container">
+        <h3 class="section-title">Personas que dejaron huella</h3>
+        <p class="section-sub">
+          Haz clic en cualquier tarjeta para leer la biografía completa.
+        </p>
+        <div id="cards" class="cards-grid" aria-live="polite">
+          <!-- Las tarjetas se generan desde script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Panel móvil (desplegable) -->
+    <div
+      class="mobile-panel"
+      id="mobilePanel"
+      aria-hidden="true"
+      style="
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        background: rgba(0, 0, 0, 0.6);
+      "
+    >
+      <aside
+        class="mobile-menu"
+        id="mobile-menu"
+        style="
+          width: 250px;
+          max-width: 90%;
+          height: 100%;
+          background: white;
+          padding: 20px;
+          transform: translateX(100%);
+          transition: transform 0.3s ease;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <div style="font-weight: 700">Menú</div>
+          <button
+            id="closeMobile"
+            aria-label="Cerrar menú"
+            style="
+              background: transparent;
+              border: 0;
+              font-size: 20px;
+              cursor: pointer;
+            "
+          >
+            ✕
+          </button>
+        </div>
+        <nav
+          style="
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+          "
+        >
+          <a href="index.html">Inicio</a>
+          <a href="galeria.html">Galería</a>
+          <a href="reseñas.html">Reseñas</a>
+        </nav>
+      </aside>
+    </div>
+
+    <section id="sobre" class="about-section">
+      <div class="container">
+        <h3 class="section-title">Sobre la muestra</h3>
+        <p>
+          Esta muestra curricular reúne trabajos, biografías y producciones de
+          estudiantes que investigaron personas cuya vocación marcó la historia.
+          La intención es reconocer la importancia del compromiso profesional y
+          humano, y cómo las acciones de cada individuo pueden inspirar a las
+          futuras generaciones.
+        </p>
+        <p>
+          Los estudiantes tuvieron la oportunidad de profundizar en la vida y
+          obra de estas personas, analizando sus desafíos, logros y el impacto
+          que dejaron en su entorno. Cada trabajo refleja no solo investigación,
+          sino también creatividad y reflexión personal, mostrando la manera en
+          que la vocación puede transformar la sociedad.
+        </p>
+        <ul class="features">
+          <li>Investigación y reseñas completas.</li>
+          <li>Diseño responsive y moderno.</li>
+          <li>Accesibilidad y navegación clara.</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>© Colegio San Alberto Magno — Muestra Vocacional 2025</p>
+        <small>Diseño: Romero Kevin 6ºA — Proyecto educativo</small>
+      </div>
+    </footer>
+
+    <!-- Modal para mostrar detalle de cada persona -->
+    <div
+      id="modal"
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-hidden="true"
+    >
+      <div class="modal-content" role="document">
+        <button id="modalClose" class="modal-close" aria-label="Cerrar ventana">
+          ×
+        </button>
+        <div class="modal-body">
+          <img id="modalImage" alt="Foto de la persona" />
+          <div class="modal-text">
+            <h4 id="modalName"></h4>
+            <p id="modalYears" class="muted"></p>
+            <blockquote id="modalQuote" class="quote"></blockquote>
+            <p id="modalBio"></p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn ghost" id="modalBack">Volver a la galería</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script>
+      const hamburger = document.getElementById("hamburgerBtn");
+      const mobilePanel = document.getElementById("mobilePanel");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const closeBtn = document.getElementById("closeMobile");
+
+      function openMobile() {
+        mobilePanel.style.display = "block";
+        setTimeout(() => (mobileMenu.style.transform = "translateX(0)"), 10);
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeMobile() {
+        mobileMenu.style.transform = "translateX(100%)";
+        setTimeout(() => (mobilePanel.style.display = "none"), 300);
+        document.body.style.overflow = "";
+      }
+
+      hamburger.addEventListener("click", openMobile);
+      closeBtn.addEventListener("click", closeMobile);
+
+      // Cerrar tocando fuera del menú
+      mobilePanel.addEventListener("click", (e) => {
+        if (e.target === mobilePanel) closeMobile();
+      });
+
+      // Cerrar con ESC
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeMobile();
+      });
+
+      // Opcional: cerrar al hacer click en un enlace
+      mobileMenu.addEventListener("click", (e) => {
+        if (e.target.tagName === "A") closeMobile();
+      });
+    </script>
+  </body>
+</html>

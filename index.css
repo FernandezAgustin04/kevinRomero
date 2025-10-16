@@ -1,0 +1,291 @@
+:root{
+  --bg: #fbfbfd;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --accent: #0ea5a4;
+  --accent-2: #2563eb;
+  --text: #0f172a;
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(15,23,42,0.08);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;color:var(--text);background:var(--bg)}
+.container{max-width:1100px;margin:0 auto;padding:1.25rem}
+
+/* Header */
+.site-header{
+  background:linear-gradient(90deg, rgba(5,150,150,0.06), rgba(37,99,235,0.03));
+  border-bottom:1px solid rgba(15,23,42,0.03);
+}
+.header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0.9rem 0;
+}
+.logo{
+  font-family:'Montserrat',sans-serif;
+  margin:0;
+  font-weight:700;
+}
+.logo .anio{
+  color:var(--accent-2);
+  font-weight:600;
+}
+.main-nav{
+  margin-right:120px;
+}
+.main-nav a{
+  margin-left:0.8rem;
+  color:var(--text);
+  text-decoration:none;
+  font-weight:500;
+}
+.main-nav a:hover{
+  color:var(--accent-2);
+}
+
+/* Botón hamburguesa oculto en pantallas grandes */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+/* Hero */
+.hero{padding:3rem 0}
+.hero-inner{
+  display:grid;
+  grid-template-columns:1fr 420px;
+  gap:2rem;
+  align-items:center;
+}
+.hero-text h2{
+  font-size:2rem;
+  margin:0 0 0.6rem;
+}
+.hero-text p{
+  margin:0 0 1rem;
+  color:var(--muted);
+}
+.btn{
+  display:inline-block;
+  padding:0.7rem 1rem;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+}
+.btn.primary{
+  background:var(--accent);
+  color:white;
+  box-shadow:var(--shadow);
+}
+.btn.ghost{
+  background:transparent;
+  border:1px solid rgba(15,23,42,0.06);
+  padding:0.6rem 0.9rem;
+}
+.hero-image img{
+  width:100%;
+  border-radius:12px;
+  box-shadow:var(--shadow);
+}
+
+/* Gallery */
+.gallery-section{padding:2.5rem 0}
+.section-title{
+  font-family:'Montserrat',sans-serif;
+  margin:0 0 0.5rem;
+  font-weight:700;
+}
+.section-sub{
+  color:var(--muted);
+  margin:0 0 1rem;
+}
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.1rem;
+}
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  transition:transform .25s ease;
+}
+.card:hover{transform:translateY(-6px)}
+.card .thumb{
+  height:180px;
+  overflow:hidden;
+}
+.card .thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.card .role{
+  font-size:0.9rem;
+  color:var(--muted);
+  margin:0 0 0.6rem;
+}
+.card .more{
+  padding:0.45rem 0.7rem;
+  border-radius:8px;
+  background:var(--accent-2);
+  color:#fff;
+  font-weight:600;
+  border:none;
+  cursor:pointer;
+}
+
+/* Modal */
+.modal{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:1.25rem;
+  z-index:60;
+  visibility:hidden;
+  opacity:0;
+  transition:opacity .25s ease;
+}
+.modal[aria-hidden="false"]{
+  visibility:visible;
+  opacity:1;
+  background:rgba(3,7,18,0.45);
+}
+.modal-content{
+  max-width:960px;
+  width:100%;
+  background:#fff;
+  border-radius:16px;
+  padding:1rem;
+  box-shadow:0 20px 60px rgba(2,6,23,0.4);
+  max-height: 90vh; /* permite scroll en móvil */
+  overflow-y: auto;
+}
+.modal-body{
+  display:grid;
+  grid-template-columns:380px 1fr;
+  gap:1rem;
+}
+.modal-body img{
+  width:100%;
+  height:auto; /* mantiene proporción */
+  border-radius:10px;
+}
+.muted{
+  color:var(--muted);
+  font-size:0.9rem;
+}
+.quote{
+  font-style:italic;
+  color:var(--accent-2);
+  margin:0.6rem 0;
+  padding-left:0.8rem;
+  border-left:3px solid rgba(37,99,235,0.15);
+}
+.modal-close{
+  position:absolute;
+  right:1.9rem;
+  top:1.2rem;
+  background:transparent;
+  border:0;
+  font-size:1.6rem;
+  cursor:pointer;
+}
+
+/* Footer */
+.site-footer{
+  padding:1.25rem 0;
+  border-top:1px solid rgba(15,23,42,0.03);
+  margin-top:2rem;
+  background-color: rgb(170, 170, 170);
+}
+.footer-inner{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+/* Responsive */
+@media (max-width:900px){
+  .hero-inner{grid-template-columns:1fr}
+  .cards-grid{grid-template-columns:repeat(2,1fr)}
+  .modal-body{grid-template-columns:1fr}
+}
+
+@media (max-width:560px){
+  .cards-grid{grid-template-columns:1fr}
+  .main-nav{display:none}
+  .hero-text h2{font-size:1.4rem}
+
+  /* Mostrar el botón hamburguesa solo en celular */
+  .hamburger {
+    display: block;
+  }
+
+  /* Ajustes para tarjetas y modal */
+  .card .thumb { height:auto; }
+  .card .thumb img { height:auto; display:block; }
+
+  .modal-content { max-width:95%; padding:0.5rem; }
+  .modal-body img { width:100%; height:auto; }
+}
+  /* Reset básico */
+  *{box-sizing:border-box}
+/* ======= PANEL MÓVIL ======= */
+.mobile-panel {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4); /* fondo semi-transparente */
+  z-index: 50;
+}
+
+/* Menú que se desliza desde la derecha */
+.mobile-menu {
+  width: 250px;
+  max-width: 90%;
+  height: 100%;
+  background: var(--card); /* recuadro claro */
+  padding: 20px;
+  position: absolute;
+  top: 0;
+  right: 0; /* siempre pegado al borde derecho */
+  transform: translateX(100%); /* oculto al inicio */
+  transition: transform 0.3s ease;
+  border-radius: 12px 0 0 12px; /* redondeado del lado izquierdo */
+}
+
+/* Encabezado del menú móvil */
+.mobile-menu .menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Enlaces del menú móvil */
+.mobile-menu nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.mobile-menu a {
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.mobile-menu a:hover {
+  color: var(--accent-2);
+}
+

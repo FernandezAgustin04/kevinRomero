@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Muestra vocacional 2025 — Colegio San Alberto Magno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <h1 class="logo">
+          muestra vocacional San Alberto<span class="anio">2025</span>
+        </h1>
+
+        <!-- Tu botón hamburguesa existente -->
+        <button class="hamburger" aria-label="Abrir menú" id="hamburgerBtn">
+          &#9776;
+        </button>
+
+        <!-- Menú de escritorio -->
+        <nav class="main-nav">
+          <a href="index.html">Inicio</a>
+          <a href="galeria.html">Galería</a>
+          <a href="reseñas.html">Reseñas</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Panel móvil (desplegable) -->
+    <div
+      class="mobile-panel"
+      id="mobilePanel"
+      aria-hidden="true"
+      style="
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        background: rgba(0, 0, 0, 0.6);
+      "
+    >
+      <aside
+        class="mobile-menu"
+        id="mobile-menu"
+        style="
+          width: 250px;
+          max-width: 90%;
+          height: 100%;
+          background: white;
+          padding: 20px;
+          transform: translateX(100%);
+          transition: transform 0.3s ease;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <div style="font-weight: 700">Menú</div>
+          <button
+            id="closeMobile"
+            aria-label="Cerrar menú"
+            style="
+              background: transparent;
+              border: 0;
+              font-size: 20px;
+              cursor: pointer;
+            "
+          >
+            ✕
+          </button>
+        </div>
+        <nav
+          style="
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+          "
+        >
+          <a href="inicio.html">Inicio</a>
+          <a href="galeria.html">Galería</a>
+        </nav>
+      </aside>
+    </div>
+
+    <main>
+      <section id="home" class="hero">
+        <div class="container hero-inner">
+          <div class="hero-text">
+            <h2>Bienvenidos a la primera muestra del 2025</h2>
+            <p>
+              Celebramos la vocación y las personas que dejaron huellas en el
+              mundo. Explora 19 historias inspiradoras que muestran cómo la
+              pasión y el compromiso transforman el mundo.
+            </p>
+            <p>
+              Cada biografía refleja un camino único, lleno de desafíos,
+              aprendizajes y logros. Descubre cómo estos ejemplos pueden
+              motivarte a seguir tu propia vocación y a dejar tu marca en la
+              sociedad.
+            </p>
+            <a class="btn primary" href="galeria.html">Explorar personajes</a>
+          </div>
+          <div class="hero-image" aria-hidden="true">
+            <img
+              src="img/ilustración de la muestra.png"
+              alt="Ilustración de la muestra"
+            />
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>© Colegio San Alberto Magno — Muestra Vocacional 2025</p>
+        <small>Diseño: Kevin Romero 6ºA — Proyecto educativo</small>
+      </div>
+    </footer>
+
+    <script src="js/script_inicio.js"></script>
+  </body>
+</html>

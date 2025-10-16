@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Barra de navegación responsiva</title>
+    <style>
+      :root {
+        --bg: #0f1724; /* fondo oscuro */
+        --accent: #06b6d4; /* color acento */
+        --muted: #94a3b8;
+        --glass: rgba(255, 255, 255, 0.04);
+        --radius: 12px;
+        --transition: 220ms ease;
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+      }
+
+      /* Reset básico */
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: linear-gradient(180deg, #071025 0%, #0f1724 100%);
+        color: #e6eef6;
+      }
+
+      /* Contenedor de la navbar */
+      .navbar {
+        width: 100%;
+        max-width: 1200px;
+        margin: 18px auto;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.03),
+          rgba(255, 255, 255, 0.01)
+        );
+        border-radius: var(--radius);
+        padding: 8px 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 0 0 auto;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: var(--glass);
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        color: var(--accent);
+      }
+      .brand-name {
+        font-weight: 600;
+        font-size: 1rem;
+      }
+
+      /* Links principales */
+      .nav-links {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        flex: 1 1 auto;
+        justify-content: flex-end;
+      }
+      .nav-links a {
+        text-decoration: none;
+        padding: 8px 12px;
+        border-radius: 10px;
+        color: inherit;
+        font-weight: 500;
+        opacity: 0.95;
+        transition: var(--transition);
+      }
+      .nav-links a:hover {
+        background: rgba(255, 255, 255, 0.02);
+        transform: translateY(-2px);
+      }
+
+      .cta {
+        background: linear-gradient(90deg, var(--accent), #7c3aed);
+        padding: 8px 14px;
+        border-radius: 10px;
+        color: #042026;
+        font-weight: 700;
+        box-shadow: 0 6px 18px rgba(6, 182, 212, 0.12);
+      }
+
+      /* Botón hamburguesa: visible en pantallas chicas */
+      .hamburger {
+        display: none; /* se mostrará en mobile */
+        background: transparent;
+        border: 0;
+        padding: 8px;
+        border-radius: 8px;
+        cursor: pointer;
+        color: inherit;
+      }
+
+      .sr-only {
+        position: absolute !important;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      /* Menu móvil (panel deslizante) */
+      .mobile-panel {
+        display: none; /* hidden por defecto */
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        align-items: flex-start;
+        justify-content: flex-end;
+        pointer-events: none; /* habilitado cuando está abierto */
+      }
+      .mobile-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(2, 6, 23, 0.6);
+        backdrop-filter: blur(3px);
+      }
+      .mobile-menu {
+        width: 280px;
+        max-width: 90%;
+        height: 100%;
+        background: linear-gradient(180deg, #071a28, #082231);
+        padding: 18px;
+        border-left: 1px solid rgba(255, 255, 255, 0.03);
+        box-shadow: -18px 0 40px rgba(2, 6, 23, 0.6);
+        transform: translateX(16px);
+        opacity: 0;
+        transition: transform var(--transition), opacity var(--transition);
+        pointer-events: auto;
+        border-radius: 0 12px 12px 0;
+      }
+      .mobile-panel.open .mobile-menu {
+        transform: translateX(0);
+        opacity: 1;
+      }
+
+      .mobile-menu nav {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 6px;
+      }
+      .mobile-menu a {
+        padding: 12px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      /* Media queries */
+      @media (max-width: 880px) {
+        .nav-links {
+          display: none;
+        }
+        .hamburger {
+          display: inline-flex;
+        }
+        .brand-name {
+          display: none;
+        }
+      }
+
+      /* Desktop tweaks */
+      @media (min-width: 881px) {
+        .mobile-panel {
+          display: none;
+        }
+      }
+
+      /* pequeña animación para icono */
+      .hamburger .bar {
+        display: block;
+        width: 22px;
+        height: 2px;
+        border-radius: 2px;
+        background: currentColor;
+        transition: transform 200ms ease, opacity 200ms ease;
+      }
+      .hamburger[aria-expanded="true"] .bar.top {
+        transform: translateY(6px) rotate(45deg);
+      }
+      .hamburger[aria-expanded="true"] .bar.middle {
+        opacity: 0;
+      }
+      .hamburger[aria-expanded="true"] .bar.bottom {
+        transform: translateY(-6px) rotate(-45deg);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="navbar" role="banner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">SF</div>
+        <div class="brand-name">MiTienda</div>
+      </div>
+
+      <!-- Botón hamburguesa - visible en móvil -->
+      <button
+        class="hamburger"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        aria-label="Abrir menú"
+        id="hamburgerBtn"
+      >
+        <span class="sr-only">Abrir menú</span>
+        <span class="bar top"></span>
+        <span class="bar middle" style="display: block; margin: 4px 0"></span>
+        <span class="bar bottom"></span>
+      </button>
+
+      <!-- Enlaces para desktop -->
+      <nav class="nav-links" role="navigation" aria-label="Menú principal">
+        <a href="#inicio">Inicio</a>
+        <a href="#productos">Productos</a>
+        <a href="#acerca">Acerca</a>
+        <a href="#contacto">Contacto</a>
+        <a href="#comprar" class="cta">Comprar</a>
+      </nav>
+    </header>
+
+    <!-- Panel móvil (overlay) -->
+    <div class="mobile-panel" id="mobilePanel" aria-hidden="true">
+      <div class="mobile-backdrop" id="backdrop" tabindex="-1"></div>
+      <aside
+        class="mobile-menu"
+        id="mobile-menu"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="mobile-title"
+      >
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <div id="mobile-title" style="font-weight: 700">MiTienda</div>
+          <button
+            id="closeMobile"
+            aria-label="Cerrar menú"
+            style="
+              background: transparent;
+              border: 0;
+              color: inherit;
+              cursor: pointer;
+              font-size: 20px;
+            "
+          >
+            ✕
+          </button>
+        </div>
+
+        <nav style="margin-top: 14px" aria-label="Menú móvil">
+          <a href="#inicio">Inicio</a>
+          <a href="#productos">Productos</a>
+          <a href="#acerca">Acerca</a>
+          <a href="#contacto">Contacto</a>
+          <a
+            href="#comprar"
+            class="cta"
+            style="display: inline-block; margin-top: 10px"
+            >Comprar</a
+          >
+        </nav>
+
+        <hr
+          style="
+            margin: 18px 0;
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+          "
+        />
+        <div style="font-size: 0.9rem; color: var(--muted)">
+          Inicia sesión para guardar tu carrito y ver historial de compras.
+        </div>
+      </aside>
+    </div>
+
+    <main
+      style="
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 12px;
+        color: var(--muted);
+      "
+    >
+      <h1>Ejemplo de barra de navegación responsiva</h1>
+      <p>
+        Esta plantilla incluye: menú horizontal para pantallas grandes y botón
+        "hamburguesa" que abre un panel lateral en dispositivos móviles. Es
+        accesible (aria-*), y cierra al tocar fuera o presionar Escape.
+      </p>
+    </main>
+
+    <script>
+      // Accesibilidad y control del menú móvil
+      const hamburger = document.getElementById("hamburgerBtn");
+      const mobilePanel = document.getElementById("mobilePanel");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const backdrop = document.getElementById("backdrop");
+      const closeBtn = document.getElementById("closeMobile");
+
+      function openMobile() {
+        hamburger.setAttribute("aria-expanded", "true");
+        hamburger.setAttribute("aria-label", "Cerrar menú");
+        mobilePanel.classList.add("open");
+        mobilePanel.style.display = "flex";
+        mobilePanel.setAttribute("aria-hidden", "false");
+        // Focus trap: llevar foco al primer enlace
+        const firstLink = mobileMenu.querySelector("a");
+        if (firstLink) firstLink.focus();
+        document.body.style.overflow = "hidden"; // evita scroll de fondo en móvil
+      }
+      function closeMobile() {
+        hamburger.setAttribute("aria-expanded", "false");
+        hamburger.setAttribute("aria-label", "Abrir menú");
+        mobilePanel.classList.remove("open");
+        mobilePanel.setAttribute("aria-hidden", "true");
+        // dejamos un pequeño delay para la animación
+        setTimeout(() => {
+          if (!mobilePanel.classList.contains("open"))
+            mobilePanel.style.display = "none";
+        }, 250);
+        document.body.style.overflow = "";
+        hamburger.focus();
+      }
+
+      hamburger.addEventListener("click", () => {
+        const expanded = hamburger.getAttribute("aria-expanded") === "true";
+        if (expanded) closeMobile();
+        else openMobile();
+      });
+
+      closeBtn.addEventListener("click", closeMobile);
+      backdrop.addEventListener("click", closeMobile);
+
+      // Cerrar con ESC
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeMobile();
+      });
+
+      // Cerrar al hacer click en un enlace del menú móvil (útil para navegación)
+      mobileMenu.addEventListener("click", (e) => {
+        if (e.target.tagName === "A") closeMobile();
+      });
+
+      // Si el tamaño de la ventana cambia a desktop, aseguramos que el panel esté cerrado
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 880) {
+          mobilePanel.style.display = "none";
+          mobilePanel.classList.remove("open");
+          mobilePanel.setAttribute("aria-hidden", "true");
+          hamburger.setAttribute("aria-expanded", "false");
+          document.body.style.overflow = "";
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Colegio San Alberto Magno</title>
+  <link rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+
+  <!-- Header / Barra de navegación -->
+  <header class="site-header">
+    <div class="container header-content" style="display:flex; justify-content:space-between; align-items:center;">
+      <h1>🏫 Colegio San Alberto Magno</h1>
+
+      <!-- Botón hamburguesa -->
+      <button class="hamburger" aria-label="Abrir menú" id="hamburgerBtn">&#9776;</button>
+
+      <!-- Menú principal -->
+      <nav class="main-nav">
+        <a href="index.html">Inicio</a>
+        <a href="galeria.html">Galería</a>
+        <a href="reseñas.html">Reseñas</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Panel móvil (desplegable) -->
+  <div class="mobile-panel" id="mobilePanel" aria-hidden="true">
+    <aside class="mobile-menu" id="mobile-menu">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:700">Menú</div>
+        <button id="closeMobile" aria-label="Cerrar menú">✕</button>
+      </div>
+      <nav style="margin-top:20px; display:flex; flex-direction:column; gap:10px;">
+        <a href="inicio.html">Inicio</a>
+        <a href="galeria.html">Galería</a>
+        <a href="reseñas.html">Reseñas</a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Sección principal / bienvenida -->
+  <section class="welcome">
+    <div class="container">
+      <h2>Bienvenidos a la Muestra vocacional del Colegio San Alberto Magno</h2>
+      <p>Un lugar donde el aprendizaje y los valores van de la mano para formar grandes personas.En esta muestra
+        participaron los tres niveles educativos: Jardín, Primaria y Secundaria. Cada grupo trabajó con dedicación para
+        dejar su huella y compartir sus aprendizajes. Te invitamos a recorrer la muestra, dejar tus comentarios sobre lo
+        que más te gustó y sugerir ideas para mejorarla.</p>
+    </div>
+  </section>
+
+  <!-- Bloque de reseñas -->
+  <section class="reviews">
+    <div class="container">
+      <h2>Reseñas de estudiantes y familias</h2>
+      <p class="reviews-intro">Cada reseña tuya nos ayuda a mejorar y crecer como colegio. ¡Deja tu opinión!</p>
+
+      <form id="reviewForm">
+        <textarea id="reviewText" placeholder="Escribe tu reseña..." required></textarea>
+        <div>
+          <label><input type="radio" name="rating" value="1">1⭐</label>
+          <label><input type="radio" name="rating" value="2">2⭐</label>
+          <label><input type="radio" name="rating" value="3">3⭐</label>
+          <label><input type="radio" name="rating" value="4">4⭐</label>
+          <label><input type="radio" name="rating" value="5">5⭐</label>
+        </div>
+        <button type="submit">Enviar</button>
+      </form>
+
+      <div id="reviewsList"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© Colegio San Alberto Magno — Muestra Vocacional 2025</p>
+      <small>Diseño: Kevin Romero 6ºA — Proyecto educativo</small>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="script/script reseñas.js"></script>
+</body>
+</html>
+<!--
+// Constantes
+const reviewForm = document.getElementById('reviewForm');
+const reviewText = document.getElementById('reviewText');
+const clearBtn = document.getElementById('clearReviews');
+const reviewsContainer = document.getElementById('reviewsList');
+const REVIEWS_KEY = 'reviews';
+
+// Funciones para cargar y guardar reseñas
+function loadReviews() {
+  const reviews = localStorage.getItem(REVIEWS_KEY);
+  return reviews ? JSON.parse(reviews) : [];
+}
+
+function saveReviews(reviews) {
+  localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
+}
+
+// Función para mostrar las reseñas
+function renderReviews() {
+  const reviews = loadReviews();
+  reviewsContainer.innerHTML = ''; // limpia la lista
+  reviews.forEach(review => {
+    const div = document.createElement('div');
+    div.classList.add('review-item');
+    div.innerHTML = `
+      <p>${review.text}</p>
+      <small>⭐ ${review.rating}</small>
+      <hr>
+    `;
+    reviewsContainer.appendChild(div);
+  });
+}
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // ELEMENTOS
+      const hamburger = document.getElementById('hamburgerBtn');
+      const mobilePanel = document.getElementById('mobilePanel');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const closeBtn = document.getElementById('closeMobile');
+
+      // Función abrir menú
+      function openMobile() {
+        mobilePanel.style.display = 'block';
+        setTimeout(() => mobileMenu.style.transform = 'translateX(0)', 10);
+        document.body.style.overflow = 'hidden';
+        mobilePanel.setAttribute('aria-hidden', 'false');
+      }
+
+      // Función cerrar menú
+      function closeMobile() {
+        mobileMenu.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+          mobilePanel.style.display = 'none';
+          document.body.style.overflow = 'auto';
+          mobilePanel.setAttribute('aria-hidden', 'true');
+        }, 300);
+      }
+
+      // Eventos
+      hamburger.addEventListener('click', openMobile);
+      closeBtn.addEventListener('click', closeMobile);
+
+      // Cerrar tocando fuera del panel
+      mobilePanel.addEventListener('click', (e) => {
+        if (e.target === mobilePanel) closeMobile();
+      });
+
+      // Cerrar con tecla ESC
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMobile();
+      });
+
+      // Cerrar al hacer clic en un enlace
+      mobileMenu.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A') closeMobile();
+      });
+    });
+    -->
+
+   
+   <!--
+    /* --- SECCIÓN RESEÑAS --- */
+.reviews {
+  background-color: #ffffff;
+  padding: 50px 0;
+}
+
+.reviews h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.reviews-intro {
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 30px;
+}
+
+form#reviewForm {
+  max-width: 600px;
+  margin: 0 auto 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+form#reviewForm textarea {
+  padding: 10px;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 100px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.stars {
+  display: flex;
+  gap: 5px;
+}
+
+.stars input[type="radio"] {
+  display: none;
+}
+
+.stars label {
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: transform 0.2s;
+}
+
+.stars label:hover,
+.stars label:hover ~ label {
+  transform: scale(1.2);
+  color: #4db8ff; /* celeste suave */
+}
+
+button.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+button.primary {
+  background-color: #4db8ff; /* celeste medio */
+  color: #fff;
+}
+
+button.primary:hover {
+  background-color: #3399e6;
+}
+
+#reviewsList {
+  max-width: 700px;
+  margin: 20px auto 0 auto;
+}
+
+.review {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #f9f9f9;
+}
+
+.review .stars {
+  margin-top: 5px;
+}
+ -->
