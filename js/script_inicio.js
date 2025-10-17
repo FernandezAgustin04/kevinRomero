@@ -32,3 +32,5 @@ if (e.key === "Escape") closeMobile();
 mobileMenu.addEventListener("click", (e) => {
 if (e.target.tagName === "A") closeMobile();
 });
+
+
